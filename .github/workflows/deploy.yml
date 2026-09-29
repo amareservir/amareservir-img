@@ -1,4 +1,4 @@
-name: Deploy Production
+name: Deploy Amar e Servir
 
 on:
   push:
@@ -10,11 +10,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Executar deploy via SSH
-        uses: appleboy/ssh-action@v1.0.0
+      - name: Deploy no servidor
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          command_timeout: 30m
+          script_stop: true
           script: |
-            bash /opt/prod.sh
+            set -e
+
+            echo "========================================"
+            echo "=== DEPLOY AMAR E SERVIR API ==="
+            echo "========================================"
+
+            cd /opt/projects/amareservir/backend/amareservir-api
+
+            echo "=== Git Pull ==="
+            git pull origin main
+
+            echo "=== Docker Down ==="
+            docker compose down
+
+            echo "=== Docker Build e Start ==="
+            docker compose up -d --build
+
+            echo "=== Status API ==="
+            docker compose ps
+
+            echo "=== Deploy concluído Amar e Servir API ==="
+
+            echo ""
+            echo "========================================"
+            echo "=== DEPLOY AMAR E SERVIR WEB ==="
+            echo "========================================"
+
+            cd /opt/projects/amareservir/frontend/amareservir-web
+
+            echo "=== Git Pull ==="
+            git pull origin main
+
+            echo "=== Docker Down ==="
+            docker compose down
+
+            echo "=== Docker Build e Start ==="
+            docker compose up -d --build
+
+            echo "=== Status WEB ==="
+            docker compose ps
+
+            echo "=== Deploy concluído Amar e Servir Web ==="
+
+            echo ""
+            echo "========================================"
+            echo "=== DEPLOY FINALIZADO COM SUCESSO ==="
+            echo "========================================"
