@@ -30,11 +30,11 @@ jobs:
             echo "=== Git Pull ==="
             git pull origin main
 
-            echo "=== Docker Down ==="
-            docker compose down
+            echo "=== Docker Build ==="
+            docker compose build
 
-            echo "=== Docker Build e Start ==="
-            docker compose up -d --build
+            echo "=== Docker Start ==="
+            docker compose up -d
 
             echo "=== Status API ==="
             docker compose ps
@@ -51,11 +51,11 @@ jobs:
             echo "=== Git Pull ==="
             git pull origin main
 
-            echo "=== Docker Down ==="
-            docker compose down
+            echo "=== Docker Build ==="
+            docker compose build
 
-            echo "=== Docker Build e Start ==="
-            docker compose up -d --build
+            echo "=== Docker Start ==="
+            docker compose up -d
 
             echo "=== Status WEB ==="
             docker compose ps
