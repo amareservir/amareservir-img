@@ -50,7 +50,10 @@ jobs:
 
             echo "=== Git Pull ==="
             git pull origin main
-            
+
+            echo "=== Instalando dependências ==="
+            npm install
+
             echo "=== Gerando Manifest ==="
             node scripts/generate-manifest.js
 
