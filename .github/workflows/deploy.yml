@@ -25,7 +25,7 @@ jobs:
             echo "=== DEPLOY AMAR E SERVIR API ==="
             echo "========================================"
 
-            cd /opt/projects/amareservir/backend/amareservir-api
+            cd /opt/projects/amareservir/oficial/amareservir-api
 
             echo "=== Git Pull ==="
             git pull origin main
@@ -46,7 +46,7 @@ jobs:
             echo "=== DEPLOY AMAR E SERVIR WEB ==="
             echo "========================================"
 
-            cd /opt/projects/amareservir/frontend/amareservir-web
+            cd /opt/projects/amareservir/oficial/amareservir-web
 
             echo "=== Git Pull ==="
             git pull origin main
