@@ -10,7 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ========================================
+      # === NOTIFICAÇÃO - DEPLOY INICIADO ===
+      # ========================================
+      - name: 🚀 Notificar início do deploy
+        run: |
+          MESSAGE="🚀 DEPLOY AMAR E SERVIR INICIADO
+
+          📦 Projeto: Amar e Servir
+          🌿 Branch: main
+          👤 Autor: ${{ github.actor }}
+          📝 Commit: ${{ github.event.head_commit.message }}
+
+          🔗 Acompanhar:
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          curl -s -X POST \
+            "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            --data-urlencode text="$MESSAGE"
+
+      # ========================================
+      # === DEPLOY NO SERVIDOR ===
+      # ========================================
       - name: Deploy no servidor
+        id: deploy
         uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -21,25 +45,25 @@ jobs:
           script: |
             set -e
 
-            echo "========================================"
-            echo "=== DEPLOY AMAR E SERVIR API ==="
-            echo "========================================"
+            # ========================================
+            # === DEPLOY AMAR E SERVIR API ===
+            # ========================================
 
-            cd /opt/projects/amareservir/oficial/amareservir-api
+            # cd /opt/projects/amareservir/oficial/amareservir-api
 
-            echo "=== Git Pull ==="
-            git pull origin main
+            # echo "=== Git Pull ==="
+            # git pull origin main
 
-            echo "=== Docker Build ==="
-            docker compose build
+            # echo "=== Docker Build ==="
+            # docker compose build
 
-            echo "=== Docker Start ==="
-            docker compose up -d
+            # echo "=== Docker Start ==="
+            # docker compose up -d
 
-            echo "=== Status API ==="
-            docker compose ps
+            # echo "=== Status API ==="
+            # docker compose ps
 
-            echo "=== Deploy concluído Amar e Servir API ==="
+            # echo "=== Deploy concluído Amar e Servir API ==="
 
             echo ""
             echo "========================================"
@@ -72,3 +96,50 @@ jobs:
             echo "========================================"
             echo "=== DEPLOY FINALIZADO COM SUCESSO ==="
             echo "========================================"
+
+      # ========================================
+      # === NOTIFICAÇÃO - SUCESSO ===
+      # ========================================
+      - name: ✅ Notificar sucesso
+        if: success()
+        run: |
+          MESSAGE="✅ DEPLOY AMAR E SERVIR CONCLUÍDO
+
+          📦 Projeto: Amar e Servir
+          🌐 Serviço: Web
+          🌿 Branch: main
+          👤 Autor: ${{ github.actor }}
+
+          📝 Commit:
+          ${{ github.event.head_commit.message }}
+
+          🔗 Ver execução:
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          curl -s -X POST \
+            "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            --data-urlencode text="$MESSAGE"
+
+      # ========================================
+      # === NOTIFICAÇÃO - ERRO ===
+      # ========================================
+      - name: ❌ Notificar erro
+        if: failure()
+        run: |
+          MESSAGE="❌ DEPLOY AMAR E SERVIR FALHOU
+
+          📦 Projeto: Amar e Servir
+          🌐 Serviço: Web
+          🌿 Branch: main
+          👤 Autor: ${{ github.actor }}
+
+          ⚠️ O deploy apresentou um erro.
+
+          🔗 Ver logs:
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          curl -s -X POST \
+            "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            --data-urlencode text="$MESSAGE"
