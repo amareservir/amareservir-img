@@ -15,9 +15,9 @@ jobs:
       # ========================================
       - name: 🚀 Notificar início do deploy
         run: |
-          MESSAGE="🚀 DEPLOY AMAR E SERVIR INICIADO
+          MESSAGE="🚀 DEPLOY AMAR E SERVIR IMAGEM INICIADO
 
-          📦 Projeto: Amar e Servir
+          📦 Projeto: Amar e Servir Imagem
           🌿 Branch: main
           👤 Autor: ${{ github.actor }}
           📝 Commit: ${{ github.event.head_commit.message }}
