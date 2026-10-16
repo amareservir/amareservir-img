@@ -103,10 +103,10 @@ jobs:
       - name: ✅ Notificar sucesso
         if: success()
         run: |
-          MESSAGE="✅ DEPLOY AMAR E SERVIR CONCLUÍDO
+          MESSAGE="✅ DEPLOY AMAR E SERVIR IMAGEM CONCLUÍDO
 
           📦 Projeto: Amar e Servir
-          🌐 Serviço: Web
+          🌐 Serviço: Imagem
           🌿 Branch: main
           👤 Autor: ${{ github.actor }}
 
@@ -127,10 +127,10 @@ jobs:
       - name: ❌ Notificar erro
         if: failure()
         run: |
-          MESSAGE="❌ DEPLOY AMAR E SERVIR FALHOU
+          MESSAGE="❌ DEPLOY AMAR E SERVIR IMAGEM FALHOU
 
           📦 Projeto: Amar e Servir
-          🌐 Serviço: Web
+          🌐 Serviço: Imagem
           🌿 Branch: main
           👤 Autor: ${{ github.actor }}
 
